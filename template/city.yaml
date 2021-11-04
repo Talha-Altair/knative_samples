@@ -1,0 +1,13 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: city
+spec:
+  template:
+    metadata:
+      name: city-v1 # revision-naming-convention (name-version)
+    spec:
+      containers:
+        - image: docker.io/talhaabdurrahman/city
+          ports:
+            - containerPort: 8500
