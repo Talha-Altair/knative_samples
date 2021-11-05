@@ -2,6 +2,7 @@ from flask import *
 import requests
 from dotenv import load_dotenv
 import os
+import json
 
 load_dotenv()
 
@@ -28,7 +29,7 @@ def add():
 
     req = requests.post(url = BACKEND_URL + '/add', json = data)
 
-    res = req.json()
+    res = json.loads(req.content)
 
     res = res['sum']
 

@@ -1,22 +1,22 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: summation
+  name: summation2
   labels:
-    name: summation
+    name: summation2
 ---
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: summation-backend
-  namespace: summation
+  namespace: summation2
 spec:
   template:
     metadata:
       name: summation-backend-v1 # revision-naming-convention (name-version)
     spec:
       containers:
-        - image: docker.io/talhaabdurrahman/summation-backend
+        - image: docker.io/talhaabdurrahman/summation-backend:latest
           ports:
             - containerPort: 5000
 ---
@@ -24,16 +24,32 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: summation-frontend
-  namespace: summation
+  namespace: summation2
 spec:
   template:
     metadata:
-      name: summation-frontend-v1 # revision-naming-convention (name-version)
+      name: summation-frontend-v2 # revision-naming-convention (name-version)
     spec:
       containers:
-        - image: docker.io/talhaabdurrahman/summation-frontend
+        - image: docker.io/talhaabdurrahman/summation-frontend:latest
           ports:
             - containerPort: 5000
           env:
             - name: BACKEND_URL
-              value: "http://summation-backend.default"
+              value: "http://summation-backend.summation2"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: summation-frontend-lb
+  namespace: summation2
+  annotations:
+    service.beta.kubernetes.io/brightbox-load-balancer-healthcheck-request: /
+spec:
+  type: LoadBalancer
+  selector:
+    app: summation-frontend-v1
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
