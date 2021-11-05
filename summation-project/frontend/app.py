@@ -1,5 +1,10 @@
 from flask import *
 import requests
+from dotenv import load_dotenv
+import os
+
+PORT = os.environ.get('PORT')
+BACKEND_URL = os.environ.get('BACKEND_URL')
 
 app = Flask(__name__)
 
@@ -19,10 +24,12 @@ def add():
         "b" : b
     }
 
-    req = requests.post(url=)
+    req = requests.post(url = BACKEND_URL + '/add', json = data)
 
-    return render_template('index.html')
+    res = req.json.get('sum')
+
+    return render_template('index.html', ans = res)
 
 if __name__ == '__main__':
 
-    app.run(host='0.0.0.0', port=8500)
+    app.run(host='0.0.0.0', port=PORT)

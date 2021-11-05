@@ -9,9 +9,9 @@ PORT = os.environ.get('PORT')
 @app.route("/add")
 def add():
 
-    a = request.values.get('a')
+    a = request.json.get('a')
 
-    b = request.values.get('b')
+    b = request.json.get('b')
 
     res = {
         "sum" : a + b
@@ -21,4 +21,4 @@ def add():
 
 if __name__ == '__main__':
 
-    app.run(host='0.0.0.0', port=8500)
+    app.run(host='0.0.0.0', port=PORT)
