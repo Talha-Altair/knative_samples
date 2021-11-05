@@ -2,11 +2,13 @@ from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 app = Flask(__name__)
 
 PORT = os.environ.get('PORT')
 
-@app.route("/add")
+@app.route("/add", methods = ['GET','POST'])
 def add():
 
     a = request.json.get('a')
