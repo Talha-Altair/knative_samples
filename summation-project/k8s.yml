@@ -1,0 +1,39 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: summation
+  labels:
+    name: summation
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: summation-backend
+  namespace: summation
+spec:
+  template:
+    metadata:
+      name: summation-backend-v1 # revision-naming-convention (name-version)
+    spec:
+      containers:
+        - image: docker.io/talhaabdurrahman/summation-backend
+          ports:
+            - containerPort: 5000
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: summation-frontend
+  namespace: summation
+spec:
+  template:
+    metadata:
+      name: summation-frontend-v1 # revision-naming-convention (name-version)
+    spec:
+      containers:
+        - image: docker.io/talhaabdurrahman/summation-frontend
+          ports:
+            - containerPort: 5000
+          env:
+            - name: BACKEND_URL
+              value: "http://summation-backend.default"
