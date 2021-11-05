@@ -1,17 +1,20 @@
-from flask import Flask, jsonify
-from faker import Faker
-
-fake = Faker()
+from flask import Flask, request, jsonify
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello_world():
+PORT = os.environ.get('PORT')
 
-    city = fake.city()
+@app.route("/add")
+def add():
+
+    a = request.values.get('a')
+
+    b = request.values.get('b')
 
     res = {
-        "city" : city
+        "sum" : a + b
     }
 
     return jsonify(res)

@@ -1,20 +1,27 @@
-from flask import Flask, jsonify
-from faker import Faker
-
-fake = Faker()
+from flask import *
+import requests
 
 app = Flask(__name__)
 
 @app.route("/")
-def hello_world():
+def home():
 
-    city = fake.city()
+    return render_template('index.html')
 
-    res = {
-        "city" : city
+@app.route("/add")
+def add():
+
+    a = request.form.get('a')
+    b = request.form.get('b')
+
+    data = {
+        "a" : a,
+        "b" : b
     }
 
-    return jsonify(res)
+    req = requests.post(url=)
+
+    return render_template('index.html')
 
 if __name__ == '__main__':
 
