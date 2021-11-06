@@ -101,10 +101,18 @@ metadata:
 spec:
   externalTrafficPolicy: Local
   ports:
-  - name: http
+  - name: nginx
     port: 80
     protocol: TCP
     targetPort: 80
+  - name: backend
+    port: 8081
+    protocol: TCP
+    targetPort: 8081
+  - name: frontend
+    port: 8082
+    protocol: TCP
+    targetPort: 8082
   selector:
     app: nginx
   type: LoadBalancer
