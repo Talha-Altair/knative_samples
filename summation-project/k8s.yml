@@ -1,15 +1,15 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: summation2
+  name: summation
   labels:
-    name: summation2
+    name: summation
 ---
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: summation-backend
-  namespace: summation2
+  namespace: summation
 spec:
   template:
     metadata:
@@ -24,11 +24,11 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: summation-frontend
-  namespace: summation2
+  namespace: summationw
 spec:
   template:
     metadata:
-      name: summation-frontend-v2 # revision-naming-convention (name-version)
+      name: summation-frontend-v1 # revision-naming-convention (name-version)
     spec:
       containers:
         - image: docker.io/talhaabdurrahman/summation-frontend:latest
@@ -36,20 +36,46 @@ spec:
             - containerPort: 5000
           env:
             - name: BACKEND_URL
-              value: "http://summation-backend.summation2"
+              value: "http://summation-backend.summation"
 ---
-kind: Service
-apiVersion: v1
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: summation-frontend-lb
-  namespace: summation2
-  annotations:
-    service.beta.kubernetes.io/brightbox-load-balancer-healthcheck-request: /
+  name: nginx
 spec:
-  type: LoadBalancer
+  strategy:
+    type: Recreate
   selector:
-    app: summation-frontend-v1
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        imagePullPolicy: IfNotPresent 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: default
+  labels:
+    app: nginx
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+spec:
+  externalTrafficPolicy: Local
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  type: LoadBalancer
