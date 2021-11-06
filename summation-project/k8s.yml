@@ -59,6 +59,10 @@ spec:
         ports:
         - containerPort: 80
         imagePullPolicy: IfNotPresent 
+        lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "echo "]
 ---
 apiVersion: v1
 kind: Service
