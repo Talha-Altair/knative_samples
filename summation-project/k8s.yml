@@ -28,7 +28,7 @@ metadata:
 spec:
   template:
     metadata:
-      name: summation-frontend-v1 # revision-naming-convention (name-version)
+      name: summation-frontend-v3 # revision-naming-convention (name-version)
     spec:
       containers:
         - image: docker.io/talhaabdurrahman/summation-frontend:latest
