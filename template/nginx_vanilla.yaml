@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: nginx
-  replicas: 3 # tells deployment to run 1 pods matching the template
+  replicas: 2 # tells deployment to run 1 pods matching the template
   template: # create pods using pod definition in this template
     metadata:
       labels:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx
+        image: dev.local/nginx2
         ports:
         - containerPort: 80
         imagePullPolicy: IfNotPresent 
