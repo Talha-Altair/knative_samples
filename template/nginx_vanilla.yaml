@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: dev.local/nginx2
+        image: docker.io/nginx
         ports:
         - containerPort: 80
         imagePullPolicy: IfNotPresent 
