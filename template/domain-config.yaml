@@ -6,12 +6,12 @@ metadata:
 data:
   # These are example settings of domain.
   # example.org will be used for routes having app=prod.
-  altair.org: |
-    selector:
-      app: summation-frontend-v1
+  # talha.cf: |
+  #   selector:
+  #     app: summation-frontend-v1
   # Default value for domain, for routes that does not have app=prod labels.
   # Although it will match all routes, it is the least-specific rule so it
   # will only be used if no other domain matches.
-  example.com: ""
+  talha.cf: ""
 
 # kubectl edit cm config-domain --namespace knative-serving
