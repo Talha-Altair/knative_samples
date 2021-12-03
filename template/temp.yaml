@@ -22,7 +22,7 @@ spec:
         image: 491667808200.dkr.ecr.ap-south-1.amazonaws.com/landingpage-old:latest
         ports:
         - containerPort: 3000
-        imagePullPolicy: IfNotPresent 
+        imagePullPolicy: Always 
 ---
 apiVersion: v1
 kind: Service
