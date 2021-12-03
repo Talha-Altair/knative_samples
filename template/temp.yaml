@@ -21,14 +21,13 @@ spec:
       - name: nginx
         image: 491667808200.dkr.ecr.ap-south-1.amazonaws.com/landingpage-old:latest
         ports:
-        - containerPort: 80
+        - containerPort: 3000
         imagePullPolicy: IfNotPresent 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: nginx
-  namespace: default
   labels:
     app: nginx
   annotations:
@@ -39,7 +38,7 @@ spec:
   - name: http
     port: 80
     protocol: TCP
-    targetPort: 80
+    targetPort: 3000
   selector:
     app: nginx
   type: LoadBalancer
