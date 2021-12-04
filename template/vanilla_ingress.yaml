@@ -15,4 +15,4 @@ spec:
               service:
                 name: ezio-service
                 port:
-                  number: 8500
+                  number: 80
