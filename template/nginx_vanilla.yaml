@@ -17,9 +17,9 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: docker.io/nginx
+        image: docker.io/talhaabdurrahman/env-tester
         ports:
-        - containerPort: 80
+        - containerPort: 8500
         imagePullPolicy: IfNotPresent 
 ---
 apiVersion: v1
@@ -37,7 +37,7 @@ spec:
   - name: http
     port: 80
     protocol: TCP
-    targetPort: 80
+    targetPort: 8500
   selector:
     app: nginx
   type: LoadBalancer
