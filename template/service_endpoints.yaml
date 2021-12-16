@@ -17,7 +17,7 @@ metadata:
   name: external-ip
 subsets:
 - addresses:
-  - ip: 103.139.237.4
+  - ip: 103.139.237.4 # Change IP as required
   ports:
   - name: app
     port: 80
