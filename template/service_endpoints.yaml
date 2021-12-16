@@ -32,7 +32,7 @@ metadata:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
-    - host: env.talha.cf
+    - host: env.talha.cf # Change domain to 4k.com
       http:
         paths:
           - path: /blog
