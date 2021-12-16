@@ -7,7 +7,7 @@ spec:
   - name: app
     port: 80
     protocol: TCP
-    targetPort: 5000
+    targetPort: 80
   clusterIP: None
   type: ClusterIP
 ---
@@ -17,10 +17,10 @@ metadata:
   name: external-ip
 subsets:
 - addresses:
-  - ip: 34.125.55.184
+  - ip: 103.139.237.4
   ports:
   - name: app
-    port: 5000
+    port: 80
     protocol: TCP
 ---
 apiVersion: networking.k8s.io/v1
@@ -29,6 +29,7 @@ metadata:
   name: ezio-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
     - host: env.talha.cf
