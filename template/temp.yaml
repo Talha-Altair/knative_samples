@@ -1,44 +1,41 @@
----
-apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
-kind: Deployment
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: nginx
-spec:
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: nginx
-  replicas: 2 # tells deployment to run 1 pods matching the template
-  template: # create pods using pod definition in this template
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      imagePullSecrets:
-      - name: looseleaf-docker-key
-      containers:
-      - name: nginx
-        image: 491667808200.dkr.ecr.ap-south-1.amazonaws.com/landingpage-old:latest
-        ports:
-        - containerPort: 3000
-        imagePullPolicy: Always 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx
-  labels:
-    app: nginx
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  name: ingress-resource
+  namespace: default
 spec:
-  externalTrafficPolicy: Local
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 3000
-  selector:
-    app: nginx
-  type: LoadBalancer
+  rules:
+  - host: staging.4k.com
+    http:
+      paths:
+      - backend:
+          serviceName: frontend-4k
+          servicePort: 3001
+        path: /
+        pathType: ImplementationSpecific
+      - backend:
+          serviceName: external-ip
+          servicePort: 80
+        path: /blog
+        pathType: ImplementationSpecific
+      
+  - host: staging-orders.4k.com
+    http:
+      paths:
+      - backend:
+          serviceName: backend-4k
+          servicePort: 3000
+        path: /
+        pathType: ImplementationSpecific
+  - host: staging-account.4k.com
+    http:
+      paths:
+      - backend:
+          serviceName: account-server4k
+          servicePort: 3000
+        path: /
+        pathType: ImplementationSpecific
